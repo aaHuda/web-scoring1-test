@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/dist/output.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <title>untuk wasit</title>
+    <style>
+      *, html, body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Marck Script', cursive;
+        font-family: 'Poppins', sans-serif;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+      
+      .counter {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      
+      .tim {
+        width: 100%;
+        padding-bottom: 10px;
+      }
+      
+      .timA {
+        background-color: tomato;
+      }
+      
+      .timB {
+        background-color: skyblue;
+      }
+      
+      .score {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .action {
+        display: flex;
+        flex-direction: column;
+        width: 120px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .tombol {
+        display: flex;
+        width: 100%;
+        justify-content:center;
+        gap: 27%;
+        padding: 10px 0;
+        height: 25%;
+      }
+      
+      .plus-minus {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .plus-minus button {
+        height: 50px;
+        width: 50px;
+        color:#183153;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(255, 196, 0);
+        font-size: 50px;
+        border: 1px solid #183153 !important;
+      }
+      
+      .reset {
+        width: 70%;
+        padding: 15px;
+        border-radius: 7px;
+        font-size: 16px;
+        font-weight: 600;
+        border: 1px solid #183153;
+        background-color: rgb(255, 196, 0);
+      }
+      
+      .skor-tim {
+        display: flex;
+        background-color: black;
+        width: 100%;
+        padding: 10px;
+        justify-content: center;
+        border-radius: 5px;
+        gap: 5px;
+      }
+      
+      .skor-tim h1 {
+        background-color: aliceblue;
+        display: flex;
+        justify-content: center;
+        border-radius: 5px;
+        align-items: center;
+      }
+      
+      .skorTim {
+        height: 200px;
+        width: 150px;
+      }
+      
+      .titik-dua {
+        height: 200px;
+        width: 70px;
+      }
+      
+      .minus span {
+        display: block !important;
+        margin: auto !important;
+        position: relative;
+        top: -8px;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-50">
+    <div class="text-center text-3xl font-bold mt-5" style="margin-top: 130px; margin-bottom: 9px;">
+      <h1 align="center">Competition Scoring</h1>
+    </div>
+    
+    <div class="counter">
+      <div class="timA tim">
+        <div class="">
+          <div class="score">
+            <h1 class="text-3xl font-bold mt-5">KELAS</h1>
+            <h1 class="mt-5" style="font-size: 18px !important;">NAMA</h1>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="timB tim">
+        
+        <div class="">
+          <div class="score">
+            <h1 class="text-3xl font-bold mt-5">KELAS</h1>
+            <h1 class="mt-5" style="font-size: 18px !important;">NAMA</h1>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="skor-tim">
+      <h1 class="text-5xl font-bold mt-5 skorTim" id="skorTimA"></h1>
+      <h1 class="titik-dua">:</h1>
+      <h1 class="text-5xl font-bold mt-5 skorTim" id="skorTimB"></h1>
+    </div>
+    
+    <div class="tombol">
+      <div class="action acton-tim-A">
+        <div class="plus-minus">
+          <button id="tambahNilaiButton" style="border: 1px solid white">
+            +
+          </button>
+          <button id="kurangNilaiButton" class="minus" style="border: 1px solid white">
+            <span>-</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="action acton-tim-A">
+        <div class="plus-minus">
+          <button id="tambahNilaiButtonB" style="border: 1px solid white">
+            +
+          </button>
+          <button id="kurangNilaiButtonB" class="minus" style="border: 1px solid white">
+            <span>-</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <button class="reset">RESET</button>
+    <button class="reset">KELUAR</button>
+    
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyChSHcGmLzk5yRf8u2b4-YDlCCCjWR_kSY",
+        authDomain: "parkir-slot.firebaseapp.com",
+        databaseURL: "https://parkir-slot-default-rtdb.firebaseio.com",
+        projectId: "parkir-slot",
+        storageBucket: "parkir-slot.appspot.com",
+        messagingSenderId: "580233487881",
+        appId: "1:580233487881:web:502ea3d7ba8225f06dfad8",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      const database = getDatabase();
+
+      const timA = ref(database, "Tim_A/Skor");
+      const timB = ref(database, "Tim_B/Skor");
+
+      onValue(timA, (snapshot) => {
+        const tA = snapshot.val();
+        document.getElementById("skorTimA").innerHTML = tA;
+
+        const tambahNilaiButton = document.getElementById("tambahNilaiButton");
+        tambahNilaiButton.addEventListener("click", () => {
+          let tAp = tA + 1;
+          console.log(tAp);
+          set(ref(database, "Tim_A/"), {
+            Skor: tAp,
+          });
+        });
+
+        const kurangNilaiButton = document.getElementById("kurangNilaiButton");
+        kurangNilaiButton.addEventListener("click", () => {
+          let tAm = tA - 1;
+          console.log(tA);
+          set(ref(database, "Tim_A/"), {
+            Skor: tAm,
+          });
+        });
+      });
+
+      onValue(timB, (snapshot) => {
+        const tB = snapshot.val();
+        document.getElementById("skorTimB").innerHTML = tB;
+        const tambahNilaiButtonB =
+          document.getElementById("tambahNilaiButtonB");
+        tambahNilaiButtonB.addEventListener("click", () => {
+          let tBp = tB + 1;
+          console.log(tBp);
+          set(ref(database, "Tim_B/"), {
+            Skor: tBp,
+          });
+        });
+
+        const kurangNilaiButtonB =
+          document.getElementById("kurangNilaiButtonB");
+        kurangNilaiButtonB.addEventListener("click", () => {
+          let tBm = tB - 1;
+          console.log(tB);
+          set(ref(database, "Tim_B/"), {
+            Skor: tBm,
+          });
+        });
+      });
+      
+    
+    </script>
+  </body>
+</html>
